@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+    ScrollView,
     View,
     Text,
     StyleSheet,
@@ -16,7 +17,6 @@ import { User } from '../../types/User';
 import { handleDeleteAccount } from '../../services/deleteAccount';
 import { LinearGradient } from 'expo-linear-gradient';
 import getUser from '../../services/userFetcher';
-import loading from '../loading';
 
 const auth = FIREBASE_AUTH;
 
@@ -70,30 +70,21 @@ const ProfilePage: React.FC = () => {
         }
 
         try {
-            // handleDeleteAccount takes email and password as arguments
             await handleDeleteAccount(auth, email, password);
-            Alert.alert(
-                'Account Deleted',
-                'Your account has been successfully deleted.'
-            );
+            Alert.alert('Account Deleted', 'Your account has been successfully deleted.');
             setIsDeleting(false); // Close the modal
             router.replace('/'); // Redirect to root
         } catch (error) {
-            Alert.alert('Error', 'Failed to delete account. try again');
+            Alert.alert('Error', 'Failed to delete account. Try again');
         }
     };
 
     return (
-        <View style={styles.background}>
-            <LinearGradient
-                colors={['#000000', '#253031']}
-                style={styles.gradient}
-            >
+        <ScrollView style={styles.background} contentContainerStyle={{ flexGrow: 1 }}>
+            <LinearGradient colors={['#000000', '#253031']} style={styles.gradient}>
                 <View style={styles.container}>
                     {!isUpdating && !loading && user && (
-                        <Text style={styles.header}>
-                            Hello, {user.username}
-                        </Text>
+                        <Text style={styles.header}>Hello, {user.username}</Text>
                     )}
                     {isUpdating ? (
                         <>
@@ -147,9 +138,7 @@ const ProfilePage: React.FC = () => {
                                 ]}
                                 onPress={() => setIsUpdating(true)}
                             >
-                                <Text style={styles.buttonText}>
-                                    Update My Profile
-                                </Text>
+                                <Text style={styles.buttonText}>Update My Profile</Text>
                             </Pressable>
                             <View style={styles.space} />
                             <Pressable
@@ -160,9 +149,7 @@ const ProfilePage: React.FC = () => {
                                 ]}
                                 onPress={handleDelete}
                             >
-                                <Text style={styles.buttonText}>
-                                    Delete My Account
-                                </Text>
+                                <Text style={styles.buttonText}>Delete My Account</Text>
                             </Pressable>
                             <View style={styles.space} />
                             <Pressable
@@ -183,9 +170,7 @@ const ProfilePage: React.FC = () => {
                     <Modal
                         transparent={true}
                         visible={isDeleting}
-                        onRequestClose={() => {
-                            setIsDeleting(false);
-                        }}
+                        onRequestClose={() => setIsDeleting(false)}
                     >
                         <View style={styles.modalContainer}>
                             <View style={styles.modalContent}>
@@ -218,9 +203,10 @@ const ProfilePage: React.FC = () => {
                     </Modal>
                 </View>
             </LinearGradient>
-        </View>
+        </ScrollView>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {

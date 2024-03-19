@@ -6,6 +6,7 @@ import {
     StyleSheet,
     Pressable,
     TextInput,
+    ScrollView, // Import ScrollView
     ActivityIndicator
 } from 'react-native';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
@@ -24,17 +25,8 @@ const HomePage = () => {
     const [showGameModal, setShowGameModal] = useState(false);
     const [game, setGame] = useState<Game>();
 
-    // eventually I think we will want a loading page here
-    // if(gamesLoading){
-    //     return (
-    //         <ActivityIndicator
-    //             size="large"
-    //             color="#0000ff"
-    //         />)
-    // }
-
     return (
-        <View style={[styles.container, styles.dark]}>
+        <ScrollView style={styles.dark} contentContainerStyle={[styles.container, { flexGrow: 1 }]}>
             <View style={styles.input}>
                 <MaterialCommunityIcons
                     name="key-variant"
@@ -86,21 +78,21 @@ const HomePage = () => {
                     gameID={game.gameID}
                 />
             )}
-        </View>
+        </ScrollView>
     );
 };
 
 // define your styles
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
         padding: 20
     },
     dark: {
-        backgroundColor: '#253031'
+        flex: 1,
+        backgroundColor: '#253031',
     },
     input: {
         borderBottomColor: 'white',

@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, Image } from 'react-native';
 
-// create a component
 const RewardsPage = () => {
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             <View
                 style={{
                     borderBottomColor: 'white',
@@ -18,14 +17,13 @@ const RewardsPage = () => {
                 source={require('../../assets/mock_rewards.png')}
                 style={styles.image}
             />
-        </View>
+        </ScrollView>
     );
 };
 
-// define your styles
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#253031',
@@ -46,5 +44,4 @@ const styles = StyleSheet.create({
     }
 });
 
-//make this component available to the app
 export default RewardsPage;
