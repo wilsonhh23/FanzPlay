@@ -4,6 +4,7 @@ import { Timestamp } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { FIRESTORE } from '../FirebaseConfig';
+import teamLogos, { normalizeTeamName } from '../assets/config/teamLogos';
 
 interface GameCardProps {
     game: Game;
@@ -22,15 +23,9 @@ const formatDate = (timestamp: { toDate: () => any }) => {
 };
 
 const GameCard: React.FC<GameCardProps> = ({ game, onPress }) => {
-    const icon1 =
-        game.team1.name === 'UNC'
-            ? require('../assets/temp/unc_logo.png')
-            : require('../assets/temp/uva_logo.png');
+    const icon1 = teamLogos[normalizeTeamName(game.team1.name)] || require('../assets/temp/unc_logo.png'); 
+    const icon2 = teamLogos[normalizeTeamName(game.team2.name)] || require('../assets/temp/duke_logo.png');
 
-    const icon2 =
-        game.team2.name === 'Duke'
-            ? require('../assets/temp/duke_logo.png')
-            : require('../assets/temp/vt_logo.png');
     return (
         <View style={styles.container}>
             <Pressable onPress={onPress}>
@@ -38,9 +33,7 @@ const GameCard: React.FC<GameCardProps> = ({ game, onPress }) => {
                     <Text style={styles.title}>
                         {game.team1.name + ' vs. ' + game.team2.name}
                     </Text>
-                    <View
-                        style={{ flexDirection: 'row', alignItems: 'center' }}
-                    >
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Image style={styles.logo} source={icon1} />
                         <View style={styles.divider} />
                         <Image style={styles.logo} source={icon2} />
