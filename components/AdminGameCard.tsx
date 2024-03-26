@@ -12,6 +12,9 @@ import { FIRESTORE } from '../FirebaseConfig';
 import AdminEditGame from './AdminEditGame';
 import AdminSelectQuestion from './AdminSelectQuestion';
 import AdminManageGame from './AdminManageGame';
+import teamLogos, {TeamName} from '../assets/config/teamLogos';
+import { Team } from '../types/Team';
+import { normalizeTeamName } from '../assets/config/teamLogos';
 
 interface AdminGameCardProps {
     game: Game;
@@ -102,16 +105,12 @@ const AdminGameCard: React.FC<AdminGameCardProps> = ({ game }) => {
         const gameRef = doc(FIRESTORE, 'games', game.gameID);
         await deleteDoc(gameRef);
     };
+    
+    const icon1 = teamLogos[normalizeTeamName(game.team1.name)] || require('../assets/temp/unc_logo.png'); 
+    const icon2 = teamLogos[normalizeTeamName(game.team2.name)] || require('../assets/temp/duke_logo.png');
+    
 
-    const icon1 =
-        game.team1.name === 'UNC'
-            ? require('../assets/temp/unc_logo.png')
-            : require('../assets/temp/duke_logo.png');
-    const icon2 =
-        game.team2.name === 'Duke'
-            ? require('../assets/temp/duke_logo.png')
-            : require('../assets/temp/unc_logo.png');
-
+    
     return (
         <View style={styles.container}>
             <View style={styles.card}>
