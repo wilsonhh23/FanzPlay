@@ -19,6 +19,8 @@ import FinalLeaderboardScreen from './FinalLeaderboardScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import useGame from '../services/useGame';
+import teamLogos, { normalizeTeamName } from '../assets/config/teamLogos';
+
 
 interface GameModalProps {
     visible: boolean;
@@ -59,16 +61,8 @@ const GameModal: React.FC<GameModalProps> = ({ visible, onClose, gameID }) => {
     }
 
     // conditionally assign team logo assets
-    const logo1 =
-        game.team1.name === 'UNC'
-            ? require('../assets/temp/unc_logo.png')
-            : require('../assets/temp/uva_logo.png');
-
-    const logo2 =
-        game.team2.name === 'Duke'
-            ? require('../assets/temp/duke_logo.png')
-            : require('../assets/temp/vt_logo.png');
-
+    const logo1 = teamLogos[normalizeTeamName(game.team1.name)] || require('../assets/temp/unc_logo.png'); 
+    const logo2 = teamLogos[normalizeTeamName(game.team2.name)] || require('../assets/temp/duke_logo.png');
     return (
         <Modal
             visible={visible}

@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, StyleSheet, SafeAreaView, View, Image } from 'react-native';
 import { Game } from '../types/Game';
 import { Team } from '../types/Team';
+import teamLogos, { normalizeTeamName } from '../assets/config/teamLogos';
+
 
 interface LobbyProps {
     game: Game;
@@ -11,14 +13,7 @@ interface LobbyProps {
 const LobbyScreen: React.FC<LobbyProps> = ({ game, team }) => {
     const opponent =
         team.teamID === game.team1.teamID ? game.team2.name : game.team1.name;
-    const icon =
-        team.name === 'UNC'
-            ? require('../assets/temp/unc_logo.png')
-            : team.name === 'Duke'
-              ? require('../assets/temp/duke_logo.png')
-              : team.name === 'UVA'
-                ? require('../assets/temp/uva_logo.png')
-                : require('../assets/temp/vt_logo.png');
+        const icon = teamLogos[normalizeTeamName(team.name)] || require('../assets/temp/unc_logo.png'); 
 
     return (
         <SafeAreaView style={styles.container}>
